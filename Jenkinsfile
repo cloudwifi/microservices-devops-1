@@ -8,9 +8,11 @@ pipeline {
     stages {
         stage('SCA with OWASP Dependency Check') {
             steps {
-                dependencyCheck additionalArguments: "--nvdApiKey ${NVD_API_KEY}", odcInstallation: 'DP-Check'
+                withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
+                    dependencyCheck additionalArguments: "--nvdApiKey ${NVD_API_KEY}", odcInstallation: 'DP-Check'
             }
         }
+    }
 
         stage('SonarQube Analysis') {
             steps {
