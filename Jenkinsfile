@@ -24,16 +24,16 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script{
-                    sh 'docker build -t kelvinskell/newsread-customize customize-service/'
-                    sh 'docker build -t kelvinskell/newsread-news news-service/'
+                    sh 'docker build -t naveenjangid22/newsread-customize customize-service/'
+                    sh 'docker build -t naveenjangid22/newsread-news news-service/'
             }
         }
     }
         stage('Containerize And Test') {
             steps {
                 script{
-                    sh 'docker run -d  --name customize-service -e FLASK_APP=run.py kelvinskell/newsread-customize && sleep 10 && docker logs customize-service && docker stop customize-service'
-                    sh 'docker run -d  --name news-service -e FLASK_APP=run.py kelvinskell/newsread-news && sleep 10 && docker logs news-service && docker stop news-service'
+                    sh 'docker run -d  --name customize-service -e FLASK_APP=run.py naveenjangid22/newsread-customize && sleep 10 && docker logs customize-service && docker stop customize-service'
+                    sh 'docker run -d  --name news-service -e FLASK_APP=run.py naveenjangid22/newsread-news && sleep 10 && docker logs news-service && docker stop news-service'
                 }
             }
         }
@@ -41,8 +41,8 @@ pipeline {
             steps {
                     script{
                         withCredentials([string(credentialsId: 'DockerHubPass', variable: 'DockerHubPass')]) {
-                        sh 'docker login -u kelvinskell --password ${DockerHubPass}' }
-                        sh 'docker push kelvinskell/newsread-news && docker push kelvinskell/newsread-customize'
+                        sh 'docker login -u naveenjangid22 --password ${DockerHubPass}' }
+                        sh 'docker push naveenjangid22/newsread-news && docker push naveenjangid22/newsread-customize'
                }
             }
                  
@@ -51,8 +51,8 @@ pipeline {
         //stage('Trivy scan on Docker images'){
           //  steps{
             //     sh 'TMPDIR=/home/jenkins'
-              //   sh 'trivy image kelvinskell/newsread-news:latest'
-                // sh 'trivy image kelvinskell/newsread-customize:latest'
+              //   sh 'trivy image naveenjangid22/newsread-news:latest'
+                // sh 'trivy image naveenjangid22/newsread-customize:latest'
         //}
        
    // }
