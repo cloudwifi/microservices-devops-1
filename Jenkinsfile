@@ -47,6 +47,15 @@ pipeline {
             }
                  
             }
+        environment {
+            NVD_API_KEY = credentials('nvd-api-key')
+        }
+
+        stage('SCA with OWASP Dependency Check') {
+         steps {
+          dependencyCheck additionalArguments: "--nvdApiKey ${NVD_API_KEY}", odcInstallation: 'DP-Check'
+        }
+      }
 
         //stage('Trivy scan on Docker images'){
           //  steps{
